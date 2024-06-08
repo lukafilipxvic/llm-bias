@@ -28,6 +28,8 @@ bias_model_option = st.sidebar.selectbox(
     index=1 # Default to d4data
 )
 
+st.sidebar.text('2024 Build Club AI: Hackathon')
+
 def analyze_bias(bias_model, text):
     """Analyze the bias of the given text using Hugging Face's NLP API."""
     retries = 5  # Maximum number of retries

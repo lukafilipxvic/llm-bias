@@ -52,6 +52,8 @@ temperature = st.sidebar.slider(
         step=0.01,
 )
 
+st.sidebar.text('2024 Build Club AI: Hackathon')
+
 col1, col2 = st.columns([1,1])
 
 model_option1 = col1.selectbox(

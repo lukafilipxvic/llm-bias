@@ -32,6 +32,7 @@ with open('bias-models.json', 'r') as file:
     bias_models = json.load(file)
 
 st.header('LLM Bias Analyzer 🔎')
+st.write('Analyse the bias of your prompt and output.')
 
 with st.sidebar:
     st.header('LLM Bias Analyzer 🔎')
@@ -47,16 +48,7 @@ with st.sidebar:
         format_func=lambda x: bias_models[x]["name"],
         index=0 # Default to d4data
     )
-
-# Detect model change and clear chat history if model has changed
-if st.session_state.selected_model != model_option:
-    st.session_state.messages = []
-    st.session_state.selected_model = model_option
-
-max_tokens_range = models[model_option]["tokens"]
-
-with st.sidebar:
-    # Adjust max_tokens slider dynamically based on the selected model
+    max_tokens_range = models[model_option]["tokens"]
     max_tokens = st.slider(
         "Max Tokens:",
         min_value=512,  # Minimum value to allow some flexibility
@@ -73,6 +65,13 @@ with st.sidebar:
         value=1.00,
         step=0.01,
     )
+    st.link_button(label='Built by Luka Filipovic', url='https://lukafilipovic.com')
+    st.text('2024 Build Club AI: Hackathon')
+    
+# Detect model change and clear chat history if model has changed
+if st.session_state.selected_model != model_option:
+    st.session_state.messages = []
+    st.session_state.selected_model = model_option
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:

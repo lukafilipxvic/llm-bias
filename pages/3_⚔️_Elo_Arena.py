@@ -36,7 +36,7 @@ with open('bias-models.json', 'r') as file:
     bias_models = json.load(file)
 
 st.header('⚔️ Elo Arena')
-st.write('Battle the bias of 2 random language models.')
+st.write('Battle the bias of 2 random language models. Select which model is more bias.')
 
 bias_model_option = st.sidebar.selectbox(
     "Choose a bias detection model:",
@@ -53,6 +53,8 @@ temperature = st.sidebar.slider(
         step=0.01,
 )
 
+st.sidebar.text('2024 Build Club AI: Hackathon')
+
 col1, col2 = st.columns([1,1])
 
 model_keys = list(models.keys())
@@ -62,8 +64,8 @@ model_option1 = model_keys[0]  # Select the first model after shuffling
 model_option2 = model_keys[1]  # Select the second model after shuffling
 selected_models = [model_option1, model_option2]
 
-col1.write(f'LLM A')
-col2.write(f'LLM B')
+col1.write(f'LLM A:')
+col2.write(f'LLM B:')
 
 def analyze_bias(bias_model, text):
     """Analyze the bias of the given text using Hugging Face's NLP API."""
