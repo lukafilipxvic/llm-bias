@@ -1,0 +1,4 @@
+{
+    "https://api-inference.huggingface.co/models/d4data/bias-detection-model": {"name": "d4data bias-detection model", "developer": "d4data"},
+    "https://api-inference.huggingface.co/models/D1V1DE/bias-detection": {"name": "D1V1DE bias-detection", "developer": "D1V1DE"}
+}
