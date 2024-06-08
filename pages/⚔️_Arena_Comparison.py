@@ -143,7 +143,7 @@ def main():
                 col.error(e, icon="🚨")
 
             # Analyze bias for the prompt and the responses
-            with st.spinner("Analyzing..."):
+            with st.spinner("Analyzing bias..."):
                 prompt_analysis = analyze_bias(bias_model_option, prompt)
                 response_analysis = analyze_bias(bias_model_option, full_response)
         

@@ -1,5 +1,5 @@
 {
-    "https://api-inference.huggingface.co/models/2024-mcm-everitt-ryan/bert-base-uncased-job-bias-classifier": {"name": "BERT Base Uncased Job BIAS Classifier", "developer": "MCM Everitt Ryan"},
-    "https://api-inference.huggingface.co/models/2024-mcm-everitt-ryan/roberta-base-job-bias-classifier": {"name": "Roberta Base Job BIAS Classifier", "developer": "MCM Everitt Ryan"},
-    "https://api-inference.huggingface.co/models/2024-mcm-everitt-ryan/deberta-v3-small-job-bias-classifier": {"name": "Deberta v3 Small Job BIAS Classifier", "developer": "MCM Everitt Ryan"}
+    "https://api-inference.huggingface.co/models/2024-mcm-everitt-ryan/bert-base-uncased-job-bias-classifier": {"name": "BERT Base Uncased BIAS Classifier", "developer": "MCM Everitt Ryan"},
+    "https://api-inference.huggingface.co/models/2024-mcm-everitt-ryan/roberta-base-job-bias-classifier": {"name": "Roberta Base BIAS Classifier", "developer": "MCM Everitt Ryan"},
+    "https://api-inference.huggingface.co/models/2024-mcm-everitt-ryan/deberta-v3-small-job-bias-classifier": {"name": "Deberta v3 Small BIAS Classifier", "developer": "MCM Everitt Ryan"}
 }
