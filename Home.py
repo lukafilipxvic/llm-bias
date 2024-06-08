@@ -7,7 +7,7 @@ import time
 
 
 st.set_page_config(page_icon="🔎", layout="centered",
-                   page_title="LLM Bias Detection",
+                   page_title="LLM Bias Analyzer",
                    initial_sidebar_state="expanded")
 
 
@@ -31,10 +31,10 @@ with open('groq-models.json', 'r') as file:
 with open('bias-models.json', 'r') as file:
     bias_models = json.load(file)
 
-st.header('LLM Bias Measurer 🔎')
+st.header('LLM Bias Analyzer 🔎')
 
 with st.sidebar:
-    st.header('LLM Bias Measurer 🔎')
+    st.header('LLM Bias Analyzer 🔎')
     model_option = st.selectbox(
         "Choose a model:",
         options=list(models.keys()),
