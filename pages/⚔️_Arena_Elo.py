@@ -64,18 +64,6 @@ selected_models = [model_option1, model_option2]
 col1.write(f'Model A')
 col2.write(f'Model B')
 
-
-# Display chat messages from history on app rerun
-for message in st.session_state.messages1:
-    avatar = '🤖' if message["role"] == "assistant" else '👨‍💻'
-    with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(message["content"])
-
-for message in st.session_state.messages2:
-    avatar = '🤖' if message["role"] == "assistant" else '👨‍💻'
-    with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(message["content"])
-
 def analyze_bias(bias_model, text):
     """Analyze the bias of the given text using Hugging Face's NLP API."""
     retries = 5  # Maximum number of retries
@@ -101,6 +89,19 @@ def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
 
 
 def main():
+    # Check if a button was pressed in the previous run and display the toast
+    if 'button_pressed' in st.session_state:
+        if st.session_state['button_pressed'] == 'A':
+            st.toast(f'selected A: {st.session_state["model_option1"]}')
+            time.sleep(0.5)
+            st.toast(f'Model B was {st.session_state["model_option2"]}')
+        elif st.session_state['button_pressed'] == 'B':
+            st.toast(f'selected B: {st.session_state["model_option2"]}')
+            time.sleep(0.5)
+            st.toast(f'Model A was {st.session_state["model_option1"]}')
+        # Reset the button press state
+        del st.session_state['button_pressed']
+
     with st.spinner("Loading bias detection model..."):
         analyze_bias(bias_model_option, "test")
 
@@ -133,7 +134,6 @@ def main():
                     stream=True
                 )
 
-                # Use the generator function with st.write_stream in the appropriate column
                 with col.chat_message("assistant", avatar="🤖"):
                     chat_responses_generator = generate_chat_responses(chat_completion)
                     full_response = col.write_stream(chat_responses_generator)
@@ -150,22 +150,16 @@ def main():
             except Exception as e:
                 col.error(e, icon="🚨")
 
-            # Analyze bias for the prompt and the responses
-            with st.spinner("Analyzing..."):
-                prompt_analysis = analyze_bias(bias_model_option, prompt)
-                response_analysis = analyze_bias(bias_model_option, full_response)
+        colA, colB = st.columns([1,1])
+        if colA.button(label='Model A is more bias 👈'):
+            st.session_state['button_pressed'] = 'A'
+            st.session_state['model_option1'] = model_option1
+            st.session_state['model_option2'] = model_option2
+        if colB.button(label='Model B is more bias👉'):
+            st.session_state['button_pressed'] = 'B'
+            st.session_state['model_option1'] = model_option1
+            st.session_state['model_option2'] = model_option2
 
-            col.write(f'Prompt bias: {prompt_analysis[0][0]['score'] * 100:.1f}%')
-            try:
-                col.write(f'Response bias: {response_analysis[0][0]['score'] * 100:.1f}%')
-            except KeyError:
-                col.write("Response bias: Response too long to analyse.")
-
-            colA, colB = st.columns([1,1])
-            if colA.button(label='Model A is more bias 👈'):
-                st.write('selected A')
-            if colB.button(label='Model B is more bias👉'):
-                st.write('selected B')
 
 if __name__ == "__main__":
     main()

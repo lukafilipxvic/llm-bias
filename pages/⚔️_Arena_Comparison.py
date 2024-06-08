@@ -68,17 +68,6 @@ model_option2 = col2.selectbox(
 
 selected_models = [model_option1, model_option2]
 
-# Display chat messages from history on app rerun
-for message in st.session_state.messages1a:
-    avatar = '🤖' if message["role"] == "assistant" else '👨‍💻'
-    with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(message["content"])
-
-for message in st.session_state.messages2a:
-    avatar = '🤖' if message["role"] == "assistant" else '👨‍💻'
-    with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(message["content"])
-
 def analyze_bias(bias_model, text):
     """Analyze the bias of the given text using Hugging Face's NLP API."""
     retries = 5  # Maximum number of retries
@@ -136,7 +125,6 @@ def main():
                     stream=True
                 )
 
-                # Use the generator function with st.write_stream in the appropriate column
                 with col.chat_message("assistant", avatar="🤖"):
                     chat_responses_generator = generate_chat_responses(chat_completion)
                     full_response = col.write_stream(chat_responses_generator)
