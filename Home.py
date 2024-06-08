@@ -31,8 +31,10 @@ with open('groq-models.json', 'r') as file:
 with open('bias-models.json', 'r') as file:
     bias_models = json.load(file)
 
+st.header('LLM Bias Measurer 🔎')
+
 with st.sidebar:
-    st.header('LLM Bias Detection 🔎')
+    st.header('LLM Bias Measurer 🔎')
     model_option = st.selectbox(
         "Choose a model:",
         options=list(models.keys()),

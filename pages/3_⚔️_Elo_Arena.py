@@ -36,6 +36,7 @@ with open('bias-models.json', 'r') as file:
     bias_models = json.load(file)
 
 st.header('⚔️ Elo Arena')
+st.write('Battle the bias of 2 random language models.')
 
 bias_model_option = st.sidebar.selectbox(
     "Choose a bias detection model:",

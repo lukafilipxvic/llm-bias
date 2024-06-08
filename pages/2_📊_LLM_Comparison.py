@@ -6,8 +6,8 @@ import requests
 import time
 
 
-st.set_page_config(page_icon="⚔️", layout="wide",
-                   page_title="Arena Comparison",
+st.set_page_config(page_icon="📊", layout="wide",
+                   page_title="LLM Bias Comparison",
                    initial_sidebar_state="expanded")
 
 
@@ -34,7 +34,8 @@ with open('groq-models.json', 'r') as file:
 with open('bias-models.json', 'r') as file:
     bias_models = json.load(file)
 
-st.header('⚔️ Arena Comparison')
+st.header('📊 LLM Bias Comparison')
+st.write('Compare the bias language models.')
 
 bias_model_option = st.sidebar.selectbox(
     "Choose a bias detection model:",
