@@ -57,7 +57,7 @@ model_option1 = col1.selectbox(
     "Choose a model:",
     options=list(models.keys()),
     format_func=lambda x: models[x]["name"],
-    index=1  # Default to llama3-8b
+    index=0  # Default to gemma-7b
 )
 model_option2 = col2.selectbox(
     "Choose a model:",
@@ -146,12 +146,20 @@ def main():
             with st.spinner("Analyzing..."):
                 prompt_analysis = analyze_bias(bias_model_option, prompt)
                 response_analysis = analyze_bias(bias_model_option, full_response)
+        
+                # Display all bias categories and their scores for the prompt and response in a table
+                bias_data = []
+                for bias in prompt_analysis[0]:
+                    bias_data.append({"Bias Type": bias['label'].capitalize(), "Prompt Bias (%)": f"{bias['score'] * 100:.1f}"})
 
-            col.write(f'Prompt bias: {prompt_analysis[0][0]['score'] * 100:.1f}%')
-            try:
-                col.write(f'Response bias: {response_analysis[0][0]['score'] * 100:.1f}%')
-            except KeyError:
-                col.write("Response bias: Response too long to analyse.")
+                if 'error' not in response_analysis:
+                    for bias, response in zip(prompt_analysis[0], response_analysis[0]):
+                        bias_data[bias_data.index({"Bias Type": bias['label'].capitalize(), "Prompt Bias (%)": f"{bias['score'] * 100:.1f}"})].update({"Response Bias (%)": f"{response['score'] * 100:.1f}"})
+                else:
+                    for bias in prompt_analysis[0]:
+                        bias_data[bias_data.index({"Bias Type": bias['label'].capitalize(), "Prompt Bias (%)": f"{bias['score'] * 100:.1f}"})].update({"Response Bias (%)": "N/A"})
 
+                col.dataframe(bias_data)   
+            
 if __name__ == "__main__":
     main()

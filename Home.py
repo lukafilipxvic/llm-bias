@@ -123,7 +123,7 @@ def main():
                     }
                     for m in st.session_state.messages
                 ],
-                max_tokens=max_tokens,
+                max_tokens=512, # or variable max_tokens if bias model allows > 512
                 temperature=temperature,
                 stream=True
             )
@@ -149,11 +149,19 @@ def main():
             prompt_analysis = analyze_bias(bias_model_option, prompt)
             response_analysis = analyze_bias(bias_model_option, full_response)
 
-        st.write(f'Prompt bias: {prompt_analysis[0][0]['score'] * 100:.1f}%')
-        try:
-            st.write(f'Response bias: {response_analysis[0][0]['score'] * 100:.1f}%')
-        except KeyError:
-            st.write("Response bias: Response too long to analyse.")
+            # Display all bias categories and their scores for the prompt and response in a table
+            bias_data = []
+            for bias in prompt_analysis[0]:
+                bias_data.append({"Bias Type": bias['label'].capitalize(), "Prompt Bias (%)": f"{bias['score'] * 100:.1f}"})
+
+            if 'error' not in response_analysis:
+                for bias, response in zip(prompt_analysis[0], response_analysis[0]):
+                    bias_data[bias_data.index({"Bias Type": bias['label'].capitalize(), "Prompt Bias (%)": f"{bias['score'] * 100:.1f}"})].update({"Response Bias (%)": f"{response['score'] * 100:.1f}"})
+            else:
+                for bias in prompt_analysis[0]:
+                    bias_data[bias_data.index({"Bias Type": bias['label'].capitalize(), "Prompt Bias (%)": f"{bias['score'] * 100:.1f}"})].update({"Response Bias (%)": "N/A"})
+
+            st.dataframe(bias_data)
 
 if __name__ == "__main__":
     main()
